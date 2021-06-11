@@ -1,14 +1,3 @@
-const regex = /(bitcoin:|DASH:|Dash:|dash:)([\w]+)/;
-
-
-let attention,
-    address = document.getElementById('address'),
-    raf = window.requestAnimationFrame,
-    qr = document.getElementById('qr'),
-    qrmessage = document.getElementById('qr-message'),
-    timer = document.getElementById('timer');
-
-
 const bip70 = {
     create: async (data) => {
         return await fetch('/payment/create', {
@@ -60,11 +49,21 @@ const bip70 = {
         }, (10 * 1000));
     }
 };
+const regex = /(bitcoin:|DASH:|Dash:|dash:)([\w]+)/;
+
+
+let attention,
+    address = document.getElementById('address'),
+    raf = window.requestAnimationFrame,
+    qr = document.getElementById('qr'),
+    qrmessage = document.getElementById('qr-message'),
+    timer = document.getElementById('timer');
 
 
 async function get(url) {
     if (!attention) {
-        attention = (await browser.storage.local.get('attention')).attention || {};
+        attention = await browser.storage.local.get('attention');
+        attention = attention.attention || {};
     }
 
     if (!attention[url]) {
@@ -77,7 +76,7 @@ async function get(url) {
 }
 
 async function init() {
-    browser.runtime.onMessage.addListener(function(message, sender) {
+    browser.runtime.onMessage.addListener(async (message, sender) => {
         if (message.action !== 'getSource') {
             return;
         }
@@ -85,10 +84,11 @@ async function init() {
         let html = message.source,
             match = (html.match(regex) || [''])[0];
 
-        let addr = match.split(':')[1];
+        let addr = match.split(':')[1],
+            data;
 
         if (!match) {
-            html = 'No Dash address found :('
+            html = 'No Dash address found :(';
         }
         else {
             html = `
@@ -102,10 +102,11 @@ async function init() {
         address.innerHTML = html;
 
         // Payment Server BIP70 Generator
-        let { bip70 } = (await browser.storage.local.get('bip70')).bip70 || {};
+        data = await browser.storage.local.get('bip70');
+        data = data.bip70 || {};
 
-        if (addr && (!bip70 || (bip70.expires || 0) <= (Date.now() / 1000))) {
-            bip70 = await bip70.create({
+        if (addr && (!data || (data.expires || 0) <= (Date.now() / 1000))) {
+            data = await bip70.create({
                 pay: [
                     {
                         amount: 0.01,
@@ -114,12 +115,12 @@ async function init() {
                 ]
             });
 
-            await browser.storage.local.set({ bip70 });
+            await browser.storage.local.set({ bip70: data });
         }
 
-        if (bip70.src || false) {
-            bip70.poll(bip70.poll, 'https://www.esportsplus.net/unlocked-content');
-            qr.src = bip70.qr;
+        if (data.src || false) {
+            bip70.poll(data.poll, 'https://www.esportsplus.net/unlocked-content');
+            qr.src = data.qr;
         }
     });
 
