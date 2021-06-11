@@ -1,0 +1,25 @@
+{
+    "browser_action": {
+        "browser_style": true,
+        "default_icon": {
+            "32": "/icons/icon.svg"
+        },
+        "default_popup": "/index.html",
+        "default_title": "skeleton"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["/js/content.js"]
+        }
+    ],
+    "description": "skeleton",
+    "icons": {},
+    "manifest_version": 2,
+    "name": "skeleton",
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+    "version": "0.0.1"
+}

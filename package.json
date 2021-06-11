@@ -1,0 +1,10 @@
+{
+    "author": "ICJR",
+    "dependencies": {},
+    "description": "extension skeleton",
+    "name": "extension-skeleton",
+    "private": true,
+    "scripts": {},
+    "version": "0.0.1",
+    "devDependencies": { }
+}

@@ -1,0 +1,4 @@
+**/node_modules
+*.ftpconfig*
+*.log*
+.env
