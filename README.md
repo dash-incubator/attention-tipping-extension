@@ -3,7 +3,7 @@
 ## Install
 
 ### Chrome
-https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/
+https://support.google.com/chrome_webstore/answer/2664769?hl=en
 
 ### Firefox
 https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/
