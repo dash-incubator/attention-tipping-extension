@@ -45,7 +45,7 @@ async function poll(url, resolve = response => response) {
             resolve(response);
         }
         else {
-            poll(url, success);
+            poll(url, resolve);
         }
     }, (10 * 1000));
 };
@@ -74,7 +74,7 @@ const get = async (address, resolve = response => response) => {
             await browser.storage.local.set({ bip70: cache });
         }
 
-        if (invoice && invoice.src || false) {
+        if (invoice && invoice.qr || false) {
             poll(invoice.poll, resolve);
         }
     }

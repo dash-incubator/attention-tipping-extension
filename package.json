@@ -32,7 +32,7 @@
         "--": "--",
         "js:build": "run-s js:webpack js:sw",
         "js:sw": "cpx \"../extension/js/sw.js\" \"../extension/\"",
-        "js:webpack": "webpack --config node_modules/ui/webpack.javascript.config.js --env=filename=extension --env=output=./extension/js",
+        "js:webpack": "webpack --config node_modules/ui/webpack.javascript.config.js --env=filename=extension --env=output=./extension/js --env=production=false",
         "---": "---",
         "svg:compress": "run-for-every-file --src \"**/svg/uncompressed/\" --dest \"../extension/svg/\" --file \"**/*.svg\" --run \"svgo --disable=removeViewBox --enable=removeXMLNS -i {{src-file}} -o {{dest-file}}\"",
         "svg:pull": "copyfiles -u 3 \"node_modules/ui/storage/svg/**/*.svg\" \"./svg/\""

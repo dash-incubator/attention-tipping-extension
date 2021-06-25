@@ -42,7 +42,7 @@ async function init() {
                     el.qr.src = response.qr;
                 }
             });
-        });
+        }); 
 }
 
 function update(start, url) {
